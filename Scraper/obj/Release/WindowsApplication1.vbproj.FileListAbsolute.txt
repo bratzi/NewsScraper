@@ -1,0 +1,13 @@
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\WindowsApplication1.exe.config
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\WindowsApplication1.exe
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\WindowsApplication1.pdb
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\WindowsApplication1.xml
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\HtmlAgilityPack.dll
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\HtmlAgilityPack.pdb
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\HtmlAgilityPack.xml
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\obj\Release\WindowsApplication1.Resources.resources
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\obj\Release\WindowsApplication1.vbproj.GenerateResource.Cache
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\obj\Release\WindowsApplication1.exe
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\obj\Release\WindowsApplication1.xml
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\obj\Release\WindowsApplication1.pdb
+C:\Users\Waldemar\Documents\Visual Studio 2015\Projects\WindowsApplication1\WindowsApplication1\bin\Release\MySql.Data.dll

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard CurrencyCulture="de-DE">
+  <Title Text="BILD.de - Dashboard" />
+  <DataSources>
+    <SqlDataSource ComponentName="dashboardSqlDataSource1">
+      <Name>SQL-Datenquelle 1</Name>
+      <Connection Name="localhost_scraping_Connection" ProviderKey="MySql">
+        <Parameters>
+          <Parameter Name="server" Value="localhost" />
+          <Parameter Name="database" Value="scraping" />
+          <Parameter Name="read only" Value="1" />
+          <Parameter Name="generateConnectionHelper" Value="false" />
+          <Parameter Name="Port" Value="3306" />
+          <Parameter Name="userid" Value="root" />
+          <Parameter Name="password" Value="Afssoftware01" />
+        </Parameters>
+      </Connection>
+      <Query Type="SelectQuery" Name="articles">
+        <Tables>
+          <Table Name="scans" Meta="30|30|125|115" />
+          <Table Name="articles" Meta="185|30|125|229" />
+          <Relation Type="LeftOuter" Parent="scans" Nested="articles">
+            <KeyColumn Parent="internalid" Nested="internalid" />
+          </Relation>
+        </Tables>
+        <Columns>
+          <Column Table="scans" Name="scantime" />
+          <Column Table="scans" Name="internalid" />
+          <Column Table="articles" Name="internalid" Alias="articles_internalid" />
+          <Column Table="articles" Name="url" />
+          <Column Table="articles" Name="headlines" />
+          <Column Table="articles" Name="artikeltext" />
+          <Column Table="articles" Name="isbildplus" />
+          <Column Table="articles" Name="releasedate" />
+          <Column Table="articles" Name="hash" />
+          <Column Table="articles" Name="scantime" Alias="articles_scantime" />
+        </Columns>
+      </Query>
+      <ResultSchema>
+        <DataSet Name="SQL-Datenquelle 1">
+          <View Name="articles">
+            <Field Name="scantime" Type="DateTime" />
+            <Field Name="internalid" Type="Int32" />
+            <Field Name="articles_internalid" Type="Int32" />
+            <Field Name="url" Type="String" />
+            <Field Name="headlines" Type="String" />
+            <Field Name="artikeltext" Type="String" />
+            <Field Name="isbildplus" Type="Byte" />
+            <Field Name="releasedate" Type="DateTime" />
+            <Field Name="hash" Type="String" />
+            <Field Name="articles_scantime" Type="DateTime" />
+          </View>
+        </DataSet>
+      </ResultSchema>
+      <ConnectionOptions CloseConnection="true" CommandTimeout="0" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <RangeFilter ComponentName="rangeFilterDashboardItem1" Name="Bereichsfilter 1" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <DataItems>
+        <Dimension DataMember="articles_scantime" DateTimeGroupInterval="DayMonthYear" DefaultId="DataItem0">
+          <DateTimeFormat DateHourFormat="TimeOnly" />
+        </Dimension>
+        <Measure DataMember="articles_internalid" SummaryType="CountDistinct" DefaultId="DataItem1" />
+      </DataItems>
+      <Argument DefaultId="DataItem0" />
+      <Series>
+        <Simple SeriesType="Line">
+          <Value DefaultId="DataItem1" />
+        </Simple>
+      </Series>
+    </RangeFilter>
+    <TreeView ComponentName="treeViewDashboardItem1" Name="Strukturansicht 1" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <InteractivityOptions IgnoreMasterFilters="false" />
+      <DataItems>
+        <Dimension DataMember="articles_scantime" SortOrder="Descending" DateTimeGroupInterval="MonthYear" DefaultId="DataItem0" />
+        <Dimension DataMember="articles_scantime" SortOrder="Descending" DateTimeGroupInterval="DayMonthYear" DefaultId="DataItem1" />
+        <Dimension DataMember="articles_scantime" SortOrder="Descending" DateTimeGroupInterval="DateHour" DefaultId="DataItem2" />
+      </DataItems>
+      <FilterDimensions>
+        <Dimension DefaultId="DataItem0" />
+        <Dimension DefaultId="DataItem1" />
+        <Dimension DefaultId="DataItem2" />
+      </FilterDimensions>
+    </TreeView>
+    <Grid ComponentName="gridDashboardItem1" Name="Tabelle 1" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <DataItems>
+        <Dimension DataMember="internalid" DefaultId="DataItem0">
+          <NumericFormat FormatType="General" />
+        </Dimension>
+        <Dimension DataMember="hash" DefaultId="DataItem1" />
+        <Dimension DataMember="releasedate" DateTimeGroupInterval="DateHourMinuteSecond" DefaultId="DataItem2" />
+        <Dimension DataMember="scantime" DateTimeGroupInterval="DateHourMinuteSecond" DefaultId="DataItem3" />
+      </DataItems>
+      <GridColumns>
+        <GridDimensionColumn Weight="33.401639344262293">
+          <Dimension DefaultId="DataItem0" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Weight="41.803278688524593">
+          <Dimension DefaultId="DataItem1" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Weight="27.868852459016395">
+          <Dimension DefaultId="DataItem2" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Weight="196.92622950819671">
+          <Dimension DefaultId="DataItem3" />
+        </GridDimensionColumn>
+      </GridColumns>
+      <GridOptions ColumnWidthMode="Manual" />
+    </Grid>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup Orientation="Vertical">
+      <LayoutItem DashboardItem="gridDashboardItem1" Weight="81.02345415778251" />
+      <LayoutGroup Weight="18.976545842217483">
+        <LayoutItem DashboardItem="treeViewDashboardItem1" Weight="15.916722632639356" />
+        <LayoutItem DashboardItem="rangeFilterDashboardItem1" Weight="84.083277367360651" />
+      </LayoutGroup>
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>

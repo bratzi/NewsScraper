@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard CurrencyCulture="de-DE">
+  <Title Text="BILD.de - Dashboard" />
+  <DataSources>
+    <SqlDataSource ComponentName="dashboardSqlDataSource1">
+      <Name>SQL-Datenquelle 1</Name>
+      <Connection Name="localhost_scraping_Connection" ProviderKey="MySql">
+        <Parameters>
+          <Parameter Name="server" Value="localhost" />
+          <Parameter Name="database" Value="scraping" />
+          <Parameter Name="read only" Value="1" />
+          <Parameter Name="generateConnectionHelper" Value="false" />
+          <Parameter Name="Port" Value="3306" />
+          <Parameter Name="userid" Value="root" />
+          <Parameter Name="password" Value="Afssoftware01" />
+        </Parameters>
+      </Connection>
+      <Query Type="SelectQuery" Name="articles">
+        <Tables>
+          <Table Name="articles" Meta="30|20|125|229" />
+          <Table Name="articles2categories" Meta="185|30|125|115" />
+          <Table Name="category" Meta="340|30|125|96" />
+          <Table Name="articles2keywords" Meta="190|170|125|115" />
+          <Table Name="keywords" Meta="340|170|125|96" />
+          <Table Name="articles2autor" Meta="190|310|125|115" />
+          <Table Name="autor" Meta="350|310|125|96" />
+          <Relation Type="LeftOuter" Parent="articles" Nested="articles2categories">
+            <KeyColumn Parent="internalid" Nested="internalId" />
+          </Relation>
+          <Relation Type="Inner" Parent="articles2categories" Nested="category">
+            <KeyColumn Parent="categoryId" Nested="ID" />
+          </Relation>
+          <Relation Type="LeftOuter" Parent="articles" Nested="articles2keywords">
+            <KeyColumn Parent="internalid" Nested="internalid" />
+          </Relation>
+          <Relation Type="Inner" Parent="articles2keywords" Nested="keywords">
+            <KeyColumn Parent="keywordid" Nested="id" />
+          </Relation>
+          <Relation Type="LeftOuter" Parent="articles" Nested="articles2autor">
+            <KeyColumn Parent="internalid" Nested="internalid" />
+          </Relation>
+          <Relation Type="Inner" Parent="articles2autor" Nested="autor">
+            <KeyColumn Parent="autorId" Nested="id" />
+          </Relation>
+        </Tables>
+        <Columns>
+          <Column Table="articles" Name="url" />
+          <Column Table="articles" Name="headlines" />
+          <Column Table="articles" Name="artikeltext" />
+          <Column Table="articles" Name="isbildplus" />
+          <Column Table="articles" Name="releasedate" />
+          <Column Table="articles" Name="hash" />
+          <Column Table="articles" Name="scantime" />
+          <Column Table="articles" Name="internalid" />
+          <Column Table="category" Name="Category" />
+          <Column Table="articles2categories" Name="internalId" />
+          <Column Table="keywords" Name="keyword" />
+          <Column Table="articles2keywords" Name="internalid" Alias="articles2keywords_internalid" />
+          <Column Table="articles2autor" Name="internalid" Alias="articles2autor_internalid" />
+          <Column Table="autor" Name="name" />
+        </Columns>
+      </Query>
+      <ResultSchema>
+        <DataSet Name="SQL-Datenquelle 1">
+          <View Name="articles">
+            <Field Name="url" Type="String" />
+            <Field Name="headlines" Type="String" />
+            <Field Name="artikeltext" Type="String" />
+            <Field Name="isbildplus" Type="Byte" />
+            <Field Name="releasedate" Type="DateTime" />
+            <Field Name="hash" Type="String" />
+            <Field Name="scantime" Type="DateTime" />
+            <Field Name="internalid" Type="Int32" />
+            <Field Name="Category" Type="String" />
+            <Field Name="internalId" Type="Int32" />
+            <Field Name="keyword" Type="String" />
+            <Field Name="articles2keywords_internalid" Type="Int32" />
+            <Field Name="articles2autor_internalid" Type="Int32" />
+            <Field Name="name" Type="String" />
+          </View>
+        </DataSet>
+      </ResultSchema>
+      <ConnectionOptions CloseConnection="true" CommandTimeout="0" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <Chart ComponentName="chartDashboardItem1" Name="Veröffentlichte Artikel nach Zeit" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <InteractivityOptions MasterFilterMode="Multiple" IsDrillDownEnabled="true" />
+      <DataItems>
+        <Dimension DataMember="releasedate" DateTimeGroupInterval="MonthYear" DefaultId="DataItem2" />
+        <Dimension DataMember="releasedate" DateTimeGroupInterval="DayMonthYear" DefaultId="DataItem3" />
+        <Dimension DataMember="releasedate" DateTimeGroupInterval="DateHour" DefaultId="DataItem4" />
+        <Measure DataMember="internalid" SummaryType="CountDistinct" DefaultId="DataItem0" />
+        <Dimension DataMember="internalid" IsDiscreteScale="true" DefaultId="DataItem1">
+          <NumericFormat FormatType="General" />
+        </Dimension>
+      </DataItems>
+      <Arguments>
+        <Argument DefaultId="DataItem2" />
+        <Argument DefaultId="DataItem3" />
+        <Argument DefaultId="DataItem4" />
+        <Argument DefaultId="DataItem1" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Bereich 1">
+          <Series>
+            <Simple>
+              <Value DefaultId="DataItem0" />
+              <PointLabelOptions Visible="true" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+    </Chart>
+    <RangeFilter ComponentName="rangeFilterDashboardItem1" Name="Bereichsfilter 1" DataSource="dashboardSqlDataSource1" DataMember="articles" SelectedDateTimePeriodIndex="Heute">
+      <InteractivityOptions IgnoreMasterFilters="false" />
+      <DataItems>
+        <Dimension DataMember="releasedate" DateTimeGroupInterval="MonthYear" DefaultId="DataItem0" />
+        <Measure DataMember="internalid" SummaryType="CountDistinct" DefaultId="DataItem1" />
+      </DataItems>
+      <Argument DefaultId="DataItem0" />
+      <Series>
+        <Simple SeriesType="Area">
+          <Value DefaultId="DataItem1" />
+        </Simple>
+      </Series>
+      <DateTimePeriods>
+        <DateTimePeriod Name="Heute">
+          <StartLimit>
+            <FlowDateTimePeriodLimit Interval="Day" />
+          </StartLimit>
+          <EndLimit>
+            <FlowDateTimePeriodLimit Interval="Day" Offset="1" />
+          </EndLimit>
+        </DateTimePeriod>
+      </DateTimePeriods>
+    </RangeFilter>
+    <Grid ComponentName="gridDashboardItem1" Name="Artikel" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <InteractivityOptions MasterFilterMode="Multiple" />
+      <DataItems>
+        <Dimension DataMember="internalid" SortOrder="Descending" DefaultId="DataItem0">
+          <NumericFormat FormatType="General" />
+        </Dimension>
+        <Dimension DataMember="hash" SortOrder="Descending" DefaultId="DataItem1" />
+        <Dimension DataMember="releasedate" DateTimeGroupInterval="DateHourMinuteSecond" DefaultId="DataItem2" />
+        <Dimension DataMember="scantime" SortOrder="Descending" DateTimeGroupInterval="DateHourMinuteSecond" DefaultId="DataItem3" />
+        <Dimension DataMember="isbildplus" DefaultId="DataItem4" />
+        <Dimension DataMember="headlines" DefaultId="DataItem5" />
+        <Dimension DataMember="artikeltext" DefaultId="DataItem6" />
+      </DataItems>
+      <FormatRules>
+        <GridItemFormatRule Name="FormatRule 1" DataItem="DataItem4">
+          <FormatConditionValue>
+            <IconSettings IconType="IndicatorCircledGreenCheck" />
+            <Value1 Type="System.Int32" Value="0" />
+          </FormatConditionValue>
+        </GridItemFormatRule>
+        <GridItemFormatRule Name="FormatRule 2" DataItem="DataItem4">
+          <FormatConditionValue>
+            <IconSettings IconType="IndicatorRedCross" />
+            <Value1 Type="System.Int32" Value="1" />
+          </FormatConditionValue>
+        </GridItemFormatRule>
+      </FormatRules>
+      <GridColumns>
+        <GridDimensionColumn Name="BILD-ID" Weight="36.637931034482762">
+          <Dimension DefaultId="DataItem0" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Name="Hash" Weight="72.413793103448285">
+          <Dimension DefaultId="DataItem1" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Name="Veröffentlichungszeit" Weight="58.189655172413808">
+          <Dimension DefaultId="DataItem2" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Name="Scanzeit" Weight="57.758620689655181">
+          <Dimension DefaultId="DataItem3" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Name="Bild-Plus Artikel" Weight="35.344827586206904">
+          <Dimension DefaultId="DataItem4" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Name="Überschriften" Weight="162.93103448275863">
+          <Dimension DefaultId="DataItem5" />
+        </GridDimensionColumn>
+        <GridDimensionColumn Name="Artikeltext" Weight="101.72413793103451">
+          <Dimension DefaultId="DataItem6" />
+        </GridDimensionColumn>
+      </GridColumns>
+      <GridOptions ColumnWidthMode="Manual" />
+    </Grid>
+    <Pie ComponentName="pieDashboardItem1" Name="TOP 10 Kategorie pro Tag" DataSource="dashboardSqlDataSource1" DataMember="articles" PieType="Donut" ContentLineCount="1">
+      <InteractivityOptions MasterFilterMode="Multiple" />
+      <DataItems>
+        <Dimension DataMember="Category" SortByMeasure="DataItem1" TopNEnabled="true" TopNCount="10" TopNMeasure="DataItem1" DefaultId="DataItem0" />
+        <Measure DataMember="internalId" Name="Anzahl veröffentl. Artikel" SummaryType="CountDistinct" DefaultId="DataItem1" />
+        <Dimension DataMember="releasedate" SortOrder="Descending" DateTimeGroupInterval="DayMonthYear" DefaultId="DataItem2" />
+        <Dimension DataMember="releasedate" SortOrder="Descending" DateTimeGroupInterval="MonthYear" DefaultId="DataItem3" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension DefaultId="DataItem3" />
+        <SeriesDimension DefaultId="DataItem2" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument DefaultId="DataItem0" />
+      </Arguments>
+      <Values>
+        <Value DefaultId="DataItem1" />
+      </Values>
+    </Pie>
+    <Grid ComponentName="gridDashboardItem3" Name="Autoren" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <InteractivityOptions MasterFilterMode="Multiple" />
+      <DataItems>
+        <Measure DataMember="internalid" SummaryType="CountDistinct" DefaultId="DataItem1" />
+        <Dimension DataMember="name" SortOrder="Descending" SortByMeasure="DataItem1" DefaultId="DataItem0" />
+      </DataItems>
+      <GridColumns>
+        <GridDimensionColumn Weight="81">
+          <Dimension DefaultId="DataItem0" />
+        </GridDimensionColumn>
+        <GridMeasureColumn Weight="69">
+          <Measure DefaultId="DataItem1" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <GridOptions ColumnWidthMode="Manual" />
+    </Grid>
+    <Grid ComponentName="gridDashboardItem2" Name="Keyword" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <InteractivityOptions MasterFilterMode="Multiple" />
+      <DataItems>
+        <Dimension DataMember="keyword" SortOrder="Descending" SortByMeasure="DataItem0" DefaultId="DataItem1" />
+        <Measure DataMember="internalid" SummaryType="CountDistinct" DefaultId="DataItem0" />
+      </DataItems>
+      <GridColumns>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem1" />
+        </GridDimensionColumn>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem0" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <GridOptions />
+    </Grid>
+    <Grid ComponentName="gridDashboardItem4" Name="Kategorien" DataSource="dashboardSqlDataSource1" DataMember="articles">
+      <InteractivityOptions MasterFilterMode="Multiple" />
+      <DataItems>
+        <Dimension DataMember="Category" SortOrder="Descending" SortByMeasure="DataItem1" DefaultId="DataItem0" />
+        <Measure DataMember="internalid" SummaryType="CountDistinct" DefaultId="DataItem1" />
+      </DataItems>
+      <GridColumns>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem0" />
+        </GridDimensionColumn>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem1" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <GridOptions />
+    </Grid>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup Orientation="Vertical">
+      <LayoutGroup Weight="24.626865671641792">
+        <LayoutItem DashboardItem="gridDashboardItem2" Weight="15.110812625923439" />
+        <LayoutItem DashboardItem="pieDashboardItem1" Weight="84.889187374076556" />
+      </LayoutGroup>
+      <LayoutGroup Weight="60.234541577825162">
+        <LayoutGroup Orientation="Vertical" Weight="15.110812625923439">
+          <LayoutItem DashboardItem="gridDashboardItem4" Weight="52.56637168141593" />
+          <LayoutItem DashboardItem="gridDashboardItem3" Weight="47.43362831858407" />
+        </LayoutGroup>
+        <LayoutGroup Orientation="Vertical" Weight="84.889187374076556">
+          <LayoutItem DashboardItem="chartDashboardItem1" Weight="41.238938053097343" />
+          <LayoutItem DashboardItem="gridDashboardItem1" Weight="58.761061946902657" />
+        </LayoutGroup>
+      </LayoutGroup>
+      <LayoutItem DashboardItem="rangeFilterDashboardItem1" Weight="15.138592750533048" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>
